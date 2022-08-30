@@ -1,0 +1,27 @@
+main{
+    min-height: 90vh;
+    background-color: white;
+    div{
+        -moz-box-shadow: 0px 1px 5px 0px #676767;
+        -webkit-box-shadow: 0px 1px 5px 0px #676767;
+        box-shadow: 0px 1px 5px 0px #676767;
+        padding: 10px;
+        margin: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-flow: column;
+        h2{
+            align-self: start;
+            margin-bottom: 10px;
+        }
+        #tags{
+            align-self: start;
+            color: blue;
+            margin-top: 10px;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+}

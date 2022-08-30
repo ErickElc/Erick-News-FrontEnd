@@ -1,0 +1,33 @@
+header{
+    background-color: rgb(39, 39, 39);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    color: white;
+    h2{
+        a{
+            color: white;
+            text-decoration: none;
+        }
+    }
+    ul{
+        display: flex;
+        justify-content: space-evenly;
+        list-style-type: none;
+        li{
+            margin: 10px;
+            a{
+                font-weight: 700;
+                color: white;
+                text-decoration: none;
+                &:hover{
+                    color: lightgray;
+                }
+                &:active{
+                    color: rgb(155, 155, 155);
+                }
+            }
+        }
+    }
+}
