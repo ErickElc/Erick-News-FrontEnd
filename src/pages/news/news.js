@@ -45,8 +45,8 @@ export default function News(){
                 <h2>{topic?.title}</h2>
                 <p>{topic?.description}</p>
                 <p id="tags"><span>tags: </span>{topic?.tags}</p>
+                <Comment/>  
             </div>
-            <Comment/>
         </main>
     )
 

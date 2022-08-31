@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const http = axios.create({
-    baseURL:"http://localhost:8877"
+    baseURL:"https://erick-news-back-end.herokuapp.com/"
 })
 
 
