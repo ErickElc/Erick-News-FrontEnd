@@ -99,7 +99,7 @@ export default function Form(props){
                     onChange={ (e) => setInputs(prev => ({...prev, tags: e.target.value}))}
                     
                 />
-                <Button variant="contained" type="submit">Postar</Button>
+                <Button variant="contained" type="submit">{(!props.editar) ? "Publicar" : "Atualizar"}</Button>
             </form>
         </div>
     )
