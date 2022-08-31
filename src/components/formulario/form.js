@@ -1,28 +1,78 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-// import axios from "axios"
 import "./form.scss";
+import http from "../../api/api";
+import { useNavigate, useParams } from "react-router";
 
-export default function Form(){
+export default function Form(props){
+    const {id} = useParams();
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState({
         title: '',
         description: "",
         tags: ""
     })
-    function SubmitForm(e){
+    useEffect(()=>{
+        if(props.editar){
+            http.get(`/api/${id}`).then(res => {
+                setInputs({
+                    title: res.data.title,
+                    description: res.data.description,
+                    tags: (res.data.tags) ? res.data.tags : ''
+                })
+            }).catch(err => {
+                if(err){
+                    alert("Esse post não existe")
+                    navigate('/')
+                    console.log(err)
+                }
+            })
+        }
+        else{
+            setInputs({
+                title: '',
+                description: "",
+                tags: ""
+            })
+        }
+    },[props, id, navigate])
+    async function SubmitForm(e){
         e.preventDefault();
-        console.log(inputs)
-        // axios.post("link",{
-        //     title: inputs.title,
-        //     description: inputs.description,
-        //     tags: inputs.tags
-        // })
+        try{
+            if(props.editar){
+                await http.put(`/api/edit/${id}`,{
+                    title: inputs.title,
+                    description: inputs.description,
+                    tags: inputs.tags
+                })
+                alert("Atualizado com sucesso");
+                return navigate(`/topic/${id}`);
+                
+            }
+            await http.post("/api/new",{
+                title: inputs.title,
+                description: inputs.description,
+                tags: inputs.tags
+            })
+            alert("Post enviado com sucesso!");
+            navigate("/")
+
+        } 
+        catch(err){
+            console.log(err);
+            if(props.editar){
+                return alert("Não foi possível atualizar o tópico")
+            }
+            alert("Não foi possível criar o tópico");
+        }
+
     }
     return(
         <div className="ContainerCadastro">
             <form method="post" onSubmit={SubmitForm} className="ContainerForm"> 
-                <h2>Enviar Post</h2>
+                <h2>{(!props.editar) ? "Criar Tópico" : "Atualizar Tópico"}</h2>
+                
                 <TextField 
                     id="outlined-basic"
                     label="titulo" 

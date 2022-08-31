@@ -8,23 +8,18 @@ export default function Header(){
         <header>
             <h2>
                 <Link to="/">
-                    Erick News
+                    Erick Forum
                 </Link>
             </h2>
             <ul>
                 <li>
                     <Link to="/publicar">
-                        Cadastrar
+                        Criar tópico
                     </Link>
                 </li>
                 <li>
-                    <Link to="/editar">
-                        Editar
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/excluir">
-                        Excluir
+                    <Link to="/">
+                        Ver tópicos
                     </Link>
                 </li>
             </ul>
