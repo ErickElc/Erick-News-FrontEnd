@@ -35,6 +35,7 @@ export default function Comment(){
                 postId: id
             });
             setInputs({input1: ''});
+            window.location.reload();
 
         } catch (error) {
             alert("Não foi possível comentar, tente mais tarde novamente");
@@ -45,6 +46,7 @@ export default function Comment(){
     async function deleteComment(commentId){
         try {
             await http.delete(`/api/comments/delete/${commentId}`); 
+            window.location.reload();
         } catch (error) {
             console.log(`Houve um erro ${error}`);
         }
