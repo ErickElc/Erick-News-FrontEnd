@@ -8,7 +8,7 @@ export default function Header(){
         <header>
             <h2>
                 <Link to="/">
-                    Erick Fórum
+                    New News
                 </Link>
             </h2>
             <ul>
