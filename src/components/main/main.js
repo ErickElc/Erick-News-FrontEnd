@@ -6,8 +6,10 @@ import "./main.scss";
 export default function Main(){
     const [posts, setPosts] = useState([])
     useEffect(()=>{
-        http.get('/api/all').then(res => {
-            setPosts(res.data);
+        http.get('/api/posts/all').then(res => {
+            if(typeof res.data === 'object'){
+                setPosts(res.data);
+            }
         }).catch(err => {console.log(err)});
     },[])
     return(

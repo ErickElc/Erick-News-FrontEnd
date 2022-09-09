@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const URLS = ["https://erick-news-back-end.herokuapp.com/", "http://localhost:8877/" ]
+
 
 const http = axios.create({
-    baseURL:"https://erick-news-back-end.herokuapp.com/"
+    baseURL: URLS[0]
 })
 
 

@@ -19,3 +19,14 @@
     }
     
 }
+.preview{
+    color: blue;
+    text-decoration: underline;
+    margin: 30px;
+    cursor: pointer;
+    display: inline;
+    user-select: none;
+    &:active{
+        color: rgb(7, 7, 93);
+    }
+}

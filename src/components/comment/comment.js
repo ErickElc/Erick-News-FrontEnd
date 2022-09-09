@@ -25,7 +25,10 @@ export default function Comment(){
                 }
             }
             setComments(dados);
-        }).catch(err => console.log(err))
+        }).catch(err => {
+            alert('/login');
+            console.log(err);
+        })
     },[id])
     async function SubmitForm(e){
         e.preventDefault();
