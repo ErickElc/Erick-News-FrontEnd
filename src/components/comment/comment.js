@@ -1,23 +1,26 @@
-import { TextField , Button} from "@mui/material"
-import { useEffect, useState } from "react"
-import Avatar from '@mui/material/Avatar';
-import SendIcon from '@mui/icons-material/Send';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { getUserLocalStorage } from "../../auth/util";
 import DeleteIcon from '@mui/icons-material/Delete';
-import http from "../../api/api";
+import IconButton from '@mui/material/IconButton';
+import { TextField , Button} from "@mui/material";
+import SendIcon from '@mui/icons-material/Send';
+import Tooltip from '@mui/material/Tooltip';
+import { useEffect, useState } from "react"
 import { useParams } from "react-router";
+import http from "../../api/api";
 
 
-export default function Comment(){
+export default function Comment(props){
     const [comments, setComments] = useState([]);
     const [inputs, setInputs] = useState({
         input1: '',
     })
+    const User = getUserLocalStorage();
     const {id} = useParams();
+    const [user, setUser] = useState({});
     useEffect(()=>{
         http.get('/api/comments/all').then(res => {
-           const dado = res.data
+           const dado = res.data;
             const dados = [];
             for(let i in dado){
                 if(dado[i].postId === id){
@@ -26,33 +29,45 @@ export default function Comment(){
             }
             setComments(dados);
         }).catch(err => {
-            alert('/login');
             console.log(err);
         })
-    },[id])
+    },[id]);
+    useEffect(()=>{
+        http.post('api/users/data',{
+            token: User?.token,
+            email: User?.email
+        }).then(res =>{
+            setUser(res.data);
+        }).catch((err)=>{
+            console.log(err)
+        })
+    },[])
     async function SubmitForm(e){
         e.preventDefault();
         try {
-            await http.post(`/api/comment/new/${id}`,{
+            await http.post(`/api/comments/new/${id}`,{
                 content: inputs.input1,
-                postId: id
+                postId: id,
+                userId: user._id,
+                email:  User.email,
+                token: User.token
             });
             setInputs({input1: ''});
             window.location.reload();
-
         } catch (error) {
             alert("Não foi possível comentar, tente mais tarde novamente");
         }
-
-
     }
     async function deleteComment(commentId){
         try {
-            await http.delete(`/api/comments/delete/${commentId}`); 
+            await http.post(`/api/comments/delete/${commentId}`,{
+                token: User.token,
+                email: User.email
+            }); 
             window.location.reload();
         } catch (error) {
             console.log(`Houve um erro ${error}`);
-        }
+        } 
     }
     return(
         <nav>
@@ -69,17 +84,18 @@ export default function Comment(){
                     Send
                 </Button>
             </form>
-
             {comments.map(item =>(
                 <div key={item._id}>
-                    <Avatar src="/broken-image.jpg"  className="avatar"/>
+                    <p>{item.userId?.name}: {item.content}</p>
                     <div>
-                        <div className="containerText"><p>{item.content}</p></div>
-                        <Tooltip title="Delete" onClick={()=> {deleteComment(item._id)}}>
-                            <IconButton>
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
+                        {item.userId?.email === User?.email ? (
+                            <Tooltip title="Delete" className="delete" onClick={()=> {deleteComment(item._id)}}>
+                                <IconButton>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </Tooltip>
+
+                        ):('')}
                     </div>
                 </div>
             ))}

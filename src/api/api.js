@@ -4,7 +4,7 @@ const URLS = ["https://erick-news-back-end.herokuapp.com/", "http://localhost:88
 
 
 const http = axios.create({
-    baseURL: URLS[0]
+    baseURL: URLS[1]
 })
 
 

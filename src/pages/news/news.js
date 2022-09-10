@@ -21,8 +21,8 @@ export default function News(){
     async function deletePost(){
         try {
             await http.post(`/api/posts/remove/${id}`,{
-                token: User.token,
-                email: User.email
+                token: User?.token,
+                email: User?.email
             });
             alert("Post deletado com sucesso!")
             navigate('/')
@@ -58,7 +58,7 @@ export default function News(){
                     <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]} className='markdown'>{topic?.description}</ReactMarkdown>
                 </div>
                 <p id="tags"><span>tags: </span>{topic?.tags}</p>
-                <Comment/>  
+                <Comment topic={topic}/>  
             </div>
         </main>
     )
