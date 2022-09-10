@@ -36,6 +36,7 @@ export default function Cadastro(){
     return(
         <ProtectedLayoutNoLogged>
             <section>
+                <h3 style={{color: 'red'}}>Não use senhas verdadeiras</h3>
                 <div className="container-form">
                     <h1>Cadastrar</h1>
                     <h4 style={{color: "#ff0000", margin: '10px'}}>{response}</h4>
