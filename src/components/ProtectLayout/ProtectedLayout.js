@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect} from "react";
+import { useEffect, useState} from "react";
 import { useNavigate } from "react-router";
 import http from "../../api/api";
 import { useAuth } from "../../auth/useAuth";
@@ -57,4 +57,24 @@ export function NoHaveAccess({children, ...props}){
         })
     },[])
     return children;
+}
+export function AdminProtectedLayout({children}){   
+    const User = getUserLocalStorage();
+    const [perm , setPerm] = useState();
+    useEffect(()=>{
+        http.post('auth/admin',{email: User?.email, token: User?.token}).then(res => {
+            setPerm(res.status);
+        }).catch(err => {
+            setPerm(err.response.status);
+        })
+    })
+    const VerificarAdmin = (status) =>{
+        if(status !== 202){
+            return <h1>Essa pagina não existe!</h1>
+            
+        }
+
+        return children;
+    }
+    return VerificarAdmin(perm);
 }
